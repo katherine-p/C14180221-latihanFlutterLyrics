@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lyricsapp/mybutton.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import './songs.dart';
+import 'classAPI.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,30 +15,32 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final _controller = TextEditingController();
-  List<dynamic> topSongs;
+  dataAPI topSongs = null;
 
   void search()
   {
-    this._getJsonData().then((value){
+    dataAPI.connectToAPI().then((hsl){
+      topSongs = hsl;
+      print(hsl);
       setState(() {
         
       });
     });
   }
 
-  Future<String> _getJsonData() async {
-    String urlapi = "http://api.musixmatch.com/ws/1.1/track.search?q_track=pov&q_artist=ariana%20grande&apikey=1548e749dd2a02f8962dc508696c1f77";
+  // Future<String> _getJsonData() async {
+  //   String urlapi = "http://api.musixmatch.com/ws/1.1/track.search?q_track=pov&q_artist=ariana%20grande&apikey=1548e749dd2a02f8962dc508696c1f77";
 
-    var response = await http.get(Uri.parse(urlapi));
-    print('kjasdhkjsd');
-    
-    setState(() {
-      var convertToJson = json.decode(response.body);
-      topSongs = convertToJson['message']['body']['track_list'];
-    });
+  //   var response = await http.get(Uri.parse(urlapi));
+  //   print('kjasdhkjsd');
 
-    return "success";
-  }
+  //   setState(() {
+  //     var convertToJson = json.decode(response.body);
+  //     topSongs = convertToJson['message']['body']['track_list'];
+  //   });
+
+  //   return "success";
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,25 +59,7 @@ class _MyAppState extends State<MyApp> {
                 controller: _controller,
                 decoration: InputDecoration(hintText: 'Enter song title')
               ),
-              MyButton('Search', pressbutton: search),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child : SizedBox(
-                      height: 200,
-                      child: new ListView.builder(
-                      itemCount: topSongs == null ? 0 : topSongs.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var song = topSongs[index]['track'];
-                        Text(song);
-                      },
-                    )
-                    ),
-                    
-                  )
-                ],
-              )
-                            
+              MyButton('Search', pressbutton: search),                            
             ],
           ),
         ),
