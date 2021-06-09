@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lyricsapp/mybutton.dart';
 import 'dart:convert';
-// import 'classAPI.dart';
 import 'package:http/http.dart' as http;
 import 'lyrics.dart';
 import 'song.dart';
@@ -90,24 +88,23 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 Expanded(
                     child: SizedBox(
-                  height: 200,
-                  child: new ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemCount: (tracks != null ? tracks.length : 0),
-                      itemBuilder: (BuildContext context, int index) {
-                        return FlatButton(
-                          color: Colors.purple[200],
-                          child: Text(
+                      height: 200,
+                      child: new ListView.builder(
+                        padding: const EdgeInsets.all(8),
+                        itemCount: (tracks != null ? tracks.length : 0),
+                        itemBuilder: (BuildContext context, int index) {
+                          return FlatButton(
+                            color: Colors.purple[200],
+                            child: Text(
                               tracks[index]['track']['track_name'].toString()),
-                          onPressed: () {
-                            int id = tracks[index]['track']['track_id'];
-                            String nama = tracks[index]['track']['track_name'];
-                            song thesong = song(id: id, name: nama);
-                            print(id);
-                            Navigator.pushNamed(context, '/lyrics',
-                                arguments: thesong);
-                          },
-                        );
+                            onPressed: () {
+                              int id = tracks[index]['track']['track_id'];
+                              String nama = tracks[index]['track']['track_name'];
+                              song thesong = song(id: id, name: nama);
+                              print(id);
+                              Navigator.pushNamed(context, '/lyrics', arguments: thesong);
+                            },
+                          );
                       }),
                 ))
               ],
